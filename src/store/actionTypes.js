@@ -1,0 +1,10 @@
+//action 内必须使用一个字符串类型的 type 字段来表示将要执行的动作。
+export const SET_FOOTERSELECTED = 'SET_FOOTERSELECTED';
+export const SET_NOTICE = 'SET_NOTICE';
+export const SET_USERINFO = 'SET_USERINFO';
+export const SET_TRANSFERGADDRTOJDADDR = 'SET_TRANSFERGADDRTOJDADDR';
+export const SET_ADDRESS = 'SET_ADDRESS';
+export const SET_RECEIVEADDRESS = 'SET_RECEIVEADDRESS';
+export const SET_SENDADDRESS = 'SET_SENDADDRESS';
+export const SET_TIMELIST = 'SET_TIMELIST';
+export const SET_AGINGLIST = 'SET_AGINGLIST';

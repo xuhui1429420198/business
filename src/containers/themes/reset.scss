@@ -1,0 +1,177 @@
+/*
+  应用的主题
+*/
+@import './variables.scss';
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; // 点击元素的高亮样式
+}
+
+html {
+  line-height: 1.4;
+}
+
+body {
+  font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+  font-size: 0.14rem;
+  background-color: $default-background;
+
+  &.no-back {
+    background-image: none;
+  }
+
+  &.white-bg {
+    background-color: #fff;
+  }
+}
+
+div, span, object, iframe, img, table, caption,
+thead, tbody, tfoot, tr, th, td, article, aside,
+canvas, details, figure, hgroup, menu, nav, footer, header,
+section, summary, mark, audio, video {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code,
+del, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd,
+ol, ul, li, fieldset, legend, label {
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline; }
+
+article, aside, canvas, figure, figure img, figcaption,
+hgroup, footer, header, nav, section, audio, video {
+  display: block; }
+
+table {
+  border-collapse: separate;
+  border-spacing: 0; }
+  table caption, table th, table td {
+    text-align: left;
+    vertical-align: middle; }
+
+li {
+  list-style: none; }
+
+a {
+  text-decoration: none; }
+  a img {
+    border: 0; }
+
+:focus {
+  outline: 0; }
+
+* {
+  box-sizing: border-box; }
+
+textarea {
+  appearance: none;
+  resize: none; }
+
+input {
+  appearance: none; }
+
+select {
+  appearance: none;
+  background-color: #fff; }
+
+input {
+  -webkit-appearance: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+.content-box {
+  height: 100%;
+}
+
+.clearfix:after {
+  content: ' ';
+  display: table;
+  clear: both;
+}
+
+.pdr-popup__title {
+  color: $primary-text-color !important;
+  font-family: PingFangSC-Semibold;
+  font-weight: bold;
+}
+
+.container {
+  padding: 0.1rem;
+}
+
+.block-wrapper {
+  background: #fff;
+  border-radius: 2PX;
+
+  &:not(:first-child) {
+    margin-top: 0.1rem;
+  }
+}
+
+.bottom-btn-wrapper {
+  box-sizing: content-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0.6rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 -0.02rem 0.06rem 0 rgba(0, 0, 0, 0.09);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 98;
+}
+
+.blue-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.08rem;
+  padding: 0 0.07rem;
+  height: 0.14rem;
+  border-radius: 0.07rem;
+  color: #fff;
+  font-family: PingFangSC-Light;
+  font-weight: 300;
+  font-size: 0.1rem;
+  background-color: $href-text-color;
+  min-width: .34rem;
+}
+
+.pdr-modal__wrapper {
+  .pdr-modal__title {
+    color: $primary-text-color;
+    font-size: 0.17rem;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+  }
+
+  .pdr-modal__message {
+    color: $secondary-text-color;
+    font-size: 0.14rem;
+    line-height: 0.2rem;
+  }
+
+  .pdr-modal__btn {
+    height: 0.45rem;
+    font-size: 0.15rem;
+  }
+
+  .pdr-modal__footer--h .pdr-modal__btn:first-child:not(:last-child) {
+    color: $primary-text-color;
+    background: transparent;
+  }
+}

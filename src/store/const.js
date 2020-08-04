@@ -1,0 +1,1 @@
+export const  pin = process.env.REACT_APP_ENV==='development'?'bjwangzhong1002':'$cooMrdGatewayUid$';
