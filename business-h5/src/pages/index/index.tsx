@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { View, Picker } from '@tarojs/components'
-import { AtTabs, AtTabsPane, AtInput, AtForm, AtImagePicker, AtList, AtListItem} from 'taro-ui'
+import { AtTabs, AtTabsPane, AtInput, AtForm, AtImagePicker, AtList, AtListItem, AtButton} from 'taro-ui'
 
 import './index.scss'
 
@@ -165,14 +165,15 @@ class Index extends Component<Props, State> {
             <AtListItem
               title='请选择地址'
               extraText={address}
+              arrow='right'
             />
           </AtList>
         </Picker>
       </View>
     )
   }
+
   handleMulitChange = (e): void => {
-    console.log(e)
     this.setState({
       mulitSelectorValues: e.detail.value
     })
