@@ -1,6 +1,8 @@
 # business
 
 安装
+前端开发工具vscode： Visual Studio Code
+
 taro： https://taro-docs.jd.com/taro/docs/GETTING-STARTED
 + npm install -g @tarojs/cli
 + npm i

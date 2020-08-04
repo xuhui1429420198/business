@@ -31,6 +31,11 @@ type State = {
   dateSel: string, // 选择的时间
   multiSelector: Array<any>, // 选择的地址
   mulitSelectorValues: Array <any>, // 选择的地址 index
+  buttonText: string, // 底部按钮文案
+  companyPeopleNumList: Array<any>
+  companyPeopleNum: string // 公司人数
+  mainCategoriesList: Array<any>
+  mainCategories: string // 主营品类
 }
 
 
@@ -114,7 +119,11 @@ class Index extends Component<Props, State> {
         ]
       ],
       mulitSelectorValues: [0, 1], // 选择的下标
-      
+      buttonText: '下一步',
+      companyPeopleNumList: ['0-10', '11-100', '101-1000', '1000已上'],
+      companyPeopleNum: '0-10', // 公司人数
+      mainCategoriesList: ['0-10', '11-100', '101-1000', '1000已上'],
+      mainCategories: '0-10' // 主营品类
     }
   }
 
@@ -178,6 +187,57 @@ class Index extends Component<Props, State> {
       mulitSelectorValues: e.detail.value
     })
   }
+  // 渲染公司人数
+  renderCompanyPeopleNum() {
+    const { companyPeopleNumList, companyPeopleNum } = this.state;
+    return (
+      <View className='page-section'>
+        <View>
+          <Picker
+            mode='selector'
+            range={companyPeopleNumList}
+            onChange={this.onCompanyItemChange.bind(this)}
+          >
+            <AtList
+              hasBorder={false}
+            >
+              <AtListItem title='成立日期' extraText={companyPeopleNum} arrow='right' hasBorder={true} />
+            </AtList>
+          </Picker>
+        </View>
+      </View>
+    )
+  }
+  onCompanyItemChange() {
+
+  }
+  // 渲染主营品类
+  renderMainCategories() {
+    const { mainCategoriesList, mainCategories } = this.state;
+    return (
+      <View className='page-section'>
+        <View>
+          <Picker
+            mode='selector'
+            value={0}
+            range={mainCategoriesList}
+            onChange={this.mainItemChange.bind(this)}
+          >
+            <AtList
+              hasBorder={false}
+            >
+              <AtListItem title='成立日期' extraText={mainCategories} arrow='right' hasBorder={true} />
+            </AtList>
+          </Picker>
+        </View>
+      </View>
+    )
+  }
+  mainItemChange() {
+
+  }
+  // 擅长产品
+
   // 渲染基本信息
   renderBaseInfo(){
     const { 
@@ -375,15 +435,46 @@ class Index extends Component<Props, State> {
   renderSituation(){
     return(
       <View className='situation-content'>
-
+        {this.renderCompanyPeopleNum()}
+        {this.renderMainCategories()}
       </View>
     )
   }
 
-
+  // 渲染提交按钮
+  renderButton(){
+    const {buttonText} = this.state;
+    return (
+      <View className='bottom-button'>
+        <AtButton
+          type='primary'
+          onClick={this.buttonClick.bind(this)}
+        >
+          {buttonText}
+        </AtButton>
+      </View>
+     
+    )
+  }
+  buttonClick(){
+    const { buttonText} = this.state;
+    if (buttonText === '下一步'){
+      this.setState({
+        buttonText: '提交',
+        current: 1,
+      })
+    } 
+  }
   handleClick(value) {
+    let buttonText = '';
+    if(value == 0){
+      buttonText = '下一步'
+    } else {
+      buttonText = '提交'
+    }
     this.setState({
       current: value,
+      buttonText
     })
   }
   render () {
@@ -396,9 +487,10 @@ class Index extends Component<Props, State> {
             {this.renderBaseInfo()}
           </AtTabsPane>
           <AtTabsPane current={current} index={1}>
-            <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页二的内容</View>
+            {this.renderSituation()}
           </AtTabsPane>
         </AtTabs>
+        {this.renderButton()}
       </View>
     )
   }
