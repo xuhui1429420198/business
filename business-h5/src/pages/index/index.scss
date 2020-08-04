@@ -1,4 +1,33 @@
+@import "~taro-ui/dist/style/components/form.scss";
+@import "~taro-ui/dist/style/components/input.scss";
+@import "~taro-ui/dist/style/components/image-picker.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
 .index {
   flex-direction: column;
   width: 100%;
+  *{
+    font-size: 28px;
+  }
+  .base-info-content{
+    .top-content{
+      .imgs-content{
+        .img-content{
+          width: 120px;
+          height: 120px;
+          overflow: hidden;
+        }
+      }
+      .text2{
+        font-size: 24px;
+      }
+      .gray{
+        color: #929397;
+      }
+    }
+    .box{
+      margin-bottom: 30px;
+      border-top: 20px solid #f2f2f2;
+    }
+
+  }
 }
