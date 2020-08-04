@@ -157,6 +157,7 @@ class Index extends Component<Props, State> {
         <Picker
           mode='multiSelector'
           range={multiSelector}
+          rangeKey= 'label'
           value={mulitSelectorValues}
           onChange={this.handleMulitChange}
         >
