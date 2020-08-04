@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, Picker } from '@tarojs/components'
+import { View, Picker } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtInput, AtForm, AtImagePicker, AtList, AtListItem} from 'taro-ui'
 
 import './index.scss'
@@ -14,7 +14,7 @@ type Props = {
 
 type State = {
   current: number, //当前item index
-  files: any,// 图片列表
+  files1: Array<any>,// 图片列表
   societyCreditCode: string, // 社会信用代码
   companyName: string, // 公司名称
   businessLicenceArea: string, // 营业执照地区
@@ -29,6 +29,8 @@ type State = {
   contactPhone: string, // 联系人手机 
   weixin: string, // 微信 
   dateSel: string, // 选择的时间
+  multiSelector: Array<any>, // 选择的地址
+  mulitSelectorValues: Array <any>, // 选择的地址 index
 }
 
 
@@ -50,7 +52,7 @@ class Index extends Component<Props, State> {
     super(props)
     this.state = {
       current: 0,
-      files: [{
+      files1: [{
           url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
         },{
           url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
@@ -79,6 +81,39 @@ class Index extends Component<Props, State> {
       contactPhone: '', // 联系人手机 
       weixin: '', // 微信 
       dateSel: '2018-04-22', // 选择的时间
+      multiSelector: [
+        [
+          {
+          label: '北京',
+          value: '1'
+          }, {
+            label: '天津',
+            value: '2'
+          }, {
+            label: '重庆',
+            value: '3'
+          }, {
+            label: '河北',
+            value: '4'
+          },
+        ],
+        [
+          {
+            label: '朝阳区',
+            value: '11'
+          }, {
+            label: '海淀区',
+            value: '12'
+          }, {
+            label: '大兴区',
+            value: '13'
+          }, {
+            label: '西城区',
+            value: '14'
+          },
+        ]
+      ],
+      mulitSelectorValues: [0, 1], // 选择的下标
       
     }
   }
@@ -91,9 +126,9 @@ class Index extends Component<Props, State> {
       <View className='page-section'>
         <View>
           <Picker 
-          mode='date' 
-          value=''
-          onChange={this.onDateChange.bind(this)}
+            mode='date' 
+            value=''
+            onChange={this.onDateChange.bind(this)}
           >
             <AtList
               hasBorder={false}
@@ -113,31 +148,38 @@ class Index extends Component<Props, State> {
 
   // 渲染地址
   renderAddress() {
-    const { multiSelector } = this.state;
+    const { multiSelector, mulitSelectorValues } = this.state;
+    const provice = multiSelector[0][mulitSelectorValues[0]].label;
+    const city = multiSelector[1][mulitSelectorValues[1]].label
+    const address = `${provice}${city}`;
     return (
       <View className='page-section'>
-        <View>
-          <Picker
-            mode='multiSelector'
-            onChange={this.onDateChange.bind(this)}
-          >
-            <AtList>
-              <AtListItem title='成立日期' extraText={dateSel} arrow='right'/>
-            </AtList>
-          </Picker>
-        </View>
+        <Picker
+          mode='multiSelector'
+          range={multiSelector}
+          value={mulitSelectorValues}
+          onChange={this.handleMulitChange}
+        >
+          <AtList>
+            <AtListItem
+              title='请选择地址'
+              extraText={address}
+            />
+          </AtList>
+        </Picker>
       </View>
     )
   }
-  onDateChange(e) {
+  handleMulitChange = (e): void => {
+    console.log(e)
     this.setState({
-      dateSel: e.detail.value
+      mulitSelectorValues: e.detail.value
     })
   }
   // 渲染基本信息
   renderBaseInfo(){
     const { 
-      files, 
+      files1, 
       societyCreditCode, 
       companyName, 
       businessLicenceAddress,
@@ -167,8 +209,8 @@ class Index extends Component<Props, State> {
               <View className='img-content'>
                 <AtImagePicker
                   length={5}
-                  files={files}
-                  onChange={this.onChange.bind(this)}
+                  files={files1}
+                  onChange={this.onFileChange.bind(this,'file1')}
                   onFail={this.onFail.bind(this)}
                   onImageClick={this.onImageClick.bind(this)}
                 ></AtImagePicker>
@@ -251,7 +293,7 @@ class Index extends Component<Props, State> {
             />
           </View>
           <View className='box bottom-content'>
-            <AtInput
+            {/* <AtInput
               name='contactArea'
               title='联系地址地区'
               type='text'
@@ -260,7 +302,8 @@ class Index extends Component<Props, State> {
               required
               value={contactArea}
               onChange={this.handleChange.bind(this, 'licenseType')}
-            />
+            /> */}
+            {this.renderAddress()}
             <AtInput
               name='contactAddress'
               title='联系地址'
@@ -307,9 +350,11 @@ class Index extends Component<Props, State> {
       </View>
     )
   }
-  onChange(files) {
+  onFileChange = (stateName: string, files: []): void =>{
+    console.log('stateName', stateName)
+    console.log('files', files)
     this.setState({
-      files
+      files1: files
     })
   }
   onFail(mes) {

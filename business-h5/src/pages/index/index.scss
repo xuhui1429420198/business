@@ -23,6 +23,11 @@
         left: 0;
       }
     }
+    .at-list__item-extra{
+      flex: 1;
+      text-align: left;
+      max-width: none;
+    }
     .top-view{
       margin-left: 30px
     }
