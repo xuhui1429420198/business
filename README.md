@@ -1,4 +1,10 @@
 # 项目的安装
+
+代码分支：
+deploy
+
+
+
 需要有node环境 & npm
 + 安装依赖 npm i
 + node-sass可能会安装失败 这是再执行 npm install node-sass 
