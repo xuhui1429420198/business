@@ -6,22 +6,33 @@
   flex-direction: column;
   width: 100%;
   *{
-    font-size: 28px;
+    font-size: 28px!important;
   }
   .base-info-content{
-    .top-content{
-      .imgs-content{
-        .img-content{
-          width: 120px;
-          height: 120px;
-          overflow: hidden;
-        }
+    .at-input__title,.at-list__item-content{
+      width: 250px;
+      flex: none;
+    }
+    .at-list__item-content{
+      margin-right: 16px;
+    }
+    .at-list__item{
+      padding-left: 0;
+      margin-left: 30px;
+      &::after{
+        left: 0;
       }
+    }
+    .top-view{
+      margin-left: 30px
+    }
+    .top-content{
       .text2{
         font-size: 24px;
       }
       .gray{
         color: #929397;
+        padding-top: 10px;
       }
     }
     .box{

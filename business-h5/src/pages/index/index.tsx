@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View } from '@tarojs/components'
-
-import { AtTabs, AtTabsPane, AtInput, AtForm, AtImagePicker} from 'taro-ui'
+import { View, Text, Picker } from '@tarojs/components'
+import { AtTabs, AtTabsPane, AtInput, AtForm, AtImagePicker, AtList, AtListItem} from 'taro-ui'
 
 import './index.scss'
 
@@ -29,6 +28,7 @@ type State = {
   contact: string, // 联系人 
   contactPhone: string, // 联系人手机 
   weixin: string, // 微信 
+  dateSel: string, // 选择的时间
 }
 
 
@@ -51,8 +51,20 @@ class Index extends Component<Props, State> {
     this.state = {
       current: 0,
       files: [{
-        url: 'https://jimczj.gitee.io/lazyrepay/aragaki1.jpeg',
-      }],
+          url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
+        },{
+          url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
+        }, {
+          url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
+        }, {
+          url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
+        }, {
+          url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
+        }, {
+          url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
+        }, {
+          url: 'https://storage.360buyimg.com/jdstatic/express/img/menu_send_heavy.png',
+        }],
       societyCreditCode: '', 
       companyName: '', 
       businessLicenceArea: '', 
@@ -66,11 +78,62 @@ class Index extends Component<Props, State> {
       contact: '', // 联系人 
       contactPhone: '', // 联系人手机 
       weixin: '', // 微信 
+      dateSel: '2018-04-22', // 选择的时间
+      
     }
   }
 
   componentDidMount () { }
+  // 渲染日期
+  renderDate(){
+    const { dateSel } = this.state;
+    return (
+      <View className='page-section'>
+        <View>
+          <Picker 
+          mode='date' 
+          value=''
+          onChange={this.onDateChange.bind(this)}
+          >
+            <AtList
+              hasBorder={false}
+            >
+              <AtListItem title='成立日期' extraText={dateSel} arrow='right' hasBorder={true}/>
+            </AtList>
+          </Picker>
+        </View>
+      </View>
+    )
+  }
+  onDateChange(e){
+    this.setState({
+      dateSel: e.detail.value
+    })
+  }
 
+  // 渲染地址
+  renderAddress() {
+    const { multiSelector } = this.state;
+    return (
+      <View className='page-section'>
+        <View>
+          <Picker
+            mode='multiSelector'
+            onChange={this.onDateChange.bind(this)}
+          >
+            <AtList>
+              <AtListItem title='成立日期' extraText={dateSel} arrow='right'/>
+            </AtList>
+          </Picker>
+        </View>
+      </View>
+    )
+  }
+  onDateChange(e) {
+    this.setState({
+      dateSel: e.detail.value
+    })
+  }
   // 渲染基本信息
   renderBaseInfo(){
     const { 
@@ -95,12 +158,15 @@ class Index extends Component<Props, State> {
           onSubmit={this.onSubmit.bind(this)}
         >
           <View className='box top-content'>
-            <View className='text1'>营业执照</View>
-            <View className='text2 gray'></View>
+            <View className='top-view'>
+              <View className='text1'>营业执照</View>
+              <View className='text2 gray'>营业执照上需印有公章或手印，小于10M。请注意核对信息。</View>
+            </View>
+           
             <View className='imgs-content'>
               <View className='img-content'>
                 <AtImagePicker
-                  length={1}
+                  length={5}
                   files={files}
                   onChange={this.onChange.bind(this)}
                   onFail={this.onFail.bind(this)}
@@ -113,6 +179,8 @@ class Index extends Component<Props, State> {
               title='统一社会信用代码'
               type='text'
               placeholder='统一社会信用代码'
+              error={!societyCreditCode}
+              required
               value={societyCreditCode}
               onChange={this.handleChange.bind(this,'societyCreditCode')}
             />
@@ -121,6 +189,8 @@ class Index extends Component<Props, State> {
               title='公司名称'
               type='text'
               placeholder='密码不能少于10位数'
+              error={!companyName}
+              required
               value={companyName}
               onChange={this.handleChange.bind(this, 'companyName')}
             />
@@ -129,6 +199,8 @@ class Index extends Component<Props, State> {
               title='营业执照地区'
               type='text'
               placeholder='营业执照地区'
+              error={!businessLicenceArea}
+              required
               value={businessLicenceArea}
               onChange={this.handleChange.bind(this,'businessLicenceArea')}
             />
@@ -137,6 +209,8 @@ class Index extends Component<Props, State> {
               title='营业执照地址'
               type='text'
               placeholder='营业执照地址'
+              error={!businessLicenceAddress}
+              required
               value={businessLicenceAddress}
               onChange={this.handleChange.bind(this,'businessLicenceAddress')}
             />
@@ -150,14 +224,15 @@ class Index extends Component<Props, State> {
               value={legalRepresentative}
               onChange={this.handleChange.bind(this, 'legalRepresentative')}
             />
-            <AtInput
+            {/* <AtInput
               name='establishDate'
               title='成立日期'
               type='text'
               placeholder='成立日期'
               value={establishDate}
               onChange={this.handleChange.bind(this, 'establishDate')}
-            />
+            /> */}
+            {this.renderDate()}
             <AtInput
               name='licenseDate'
               title='执照有效期'
@@ -181,6 +256,8 @@ class Index extends Component<Props, State> {
               title='联系地址地区'
               type='text'
               placeholder='联系地址地区'
+              error={!contactArea}
+              required
               value={contactArea}
               onChange={this.handleChange.bind(this, 'licenseType')}
             />
@@ -189,6 +266,8 @@ class Index extends Component<Props, State> {
               title='联系地址'
               type='text'
               placeholder='联系地址'
+              error={!contactAddress}
+              required
               value={contactAddress}
               onChange={this.handleChange.bind(this, 'licenseType')}
             />
@@ -197,6 +276,8 @@ class Index extends Component<Props, State> {
               title='联系人'
               type='text'
               placeholder='联系人'
+              error={!contact}
+              required
               value={contact}
               onChange={this.handleChange.bind(this, 'licenseType')}
             />
@@ -205,6 +286,8 @@ class Index extends Component<Props, State> {
               title='联系人手机'
               type='text'
               placeholder='联系人手机'
+              error={!contactPhone}
+              required
               value={contactPhone}
               onChange={this.handleChange.bind(this, 'licenseType')}
             />
@@ -213,6 +296,8 @@ class Index extends Component<Props, State> {
               title='微信'
               type='text'
               placeholder='微信'
+              error={!weixin}
+              required
               value={weixin}
               onChange={this.handleChange.bind(this, 'licenseType')}
             />
