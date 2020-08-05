@@ -48,7 +48,39 @@
 }
 
 .list-content{
-  display: flex;
+  position: relative;
+  height: 320px;
+  *{
+    font-size: .14rem!important
+  }
+  .title-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #edeff2;
+    padding: 9px 15px;
+    .cancel{
+      color: #197afa;
+      font-size: 16px!important;
+    }
+    .ok{
+      color: #616265;
+      font-size: 16px!important;
+    }
+  }
+  .modal-content{
+    height: 270px;
+    overflow: hidden;
+    display: flex;
+    .left{
+      flex: 0 0 1.35rem;
+      width: 1.35rem;
+      margin-right: .15rem;
+      overflow-y: scroll;
+      padding-left: .15rem;
+      padding-right: .15rem;
+    }
+  }
 }
 .button-content{
   position: fixed;

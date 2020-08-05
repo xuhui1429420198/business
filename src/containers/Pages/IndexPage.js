@@ -120,16 +120,21 @@ const comanyNumList = [
     value: '3',
   },
 ];
-function closest(el, selector) {
-  const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-  while (el) {
-    if (matchesSelector.call(el, selector)) {
-      return el;
-    }
-    el = el.parentElement;
+const classList =  [
+  {
+    presetsName: '母婴',
+    presetsCode: '1055',
   }
-  return null;
-}
+];
+const categoryList =  [
+    {
+      title: '女装',
+      id: 195
+    }, {
+      title: '童装',
+      id: 196
+    }
+  ];
 
 class DataPage extends Component {
   constructor(props) {
@@ -160,27 +165,12 @@ class DataPage extends Component {
       comanyNumType: ['1'],//公司人数list 选中的item
       modal1: false,
       mainClassText: '请选择',
-      mainClassList:[
-        {
-          presetsName:'孕妇',
-          presetsCode:'1054',
-          adeptCategoryList:[{
-            title:'孕妇装',
-            id: 197
-          }]
-        },
-        {
-          presetsName: '母婴',
-          presetsCode: '1055',
-          adeptCategoryList: [{
-            title: '女装',
-            id: 195
-          }, {
-              title: '童装',
-              id: 196
-            }]
-        },
-      ],
+      modal2: false,
+      mainProductText: '请选择',
+      mainClassList: classList, // 主营品类一级list
+      adeptCategoryList: categoryList,// 主营品类二级list
+      mainProductList: classList,// //擅长产品一级list
+      productCategoryList: categoryList,//擅长产品二级list
       isExperience: true,
       companyImgList: [], // 公司img 1张
       officeImgList: [], //办公室img
@@ -420,6 +410,7 @@ class DataPage extends Component {
       hotProductImgList,
       otherImgList,
       mainClassText,
+      mainProductText,
     } = this.state;
     return (
       <div className='situation-content'>
@@ -439,6 +430,13 @@ class DataPage extends Component {
             onClick={() => this.setState({modal1: true})}
           >
             主营品类
+          </List.Item>
+          <List.Item
+            arrow="horizontal"
+            extra={mainProductText}
+            onClick={() => this.setState({ modal2: true })}
+          >
+            擅长产品
           </List.Item>
           
         </List>
@@ -554,15 +552,15 @@ class DataPage extends Component {
       </div>
     )
   }
-
-  renderModal(){
+ // 主营品类弹层 renderModal1跟 renderModal2 可复用一个render 可自行拆成子组件
+  renderModal1(){ 
     const { 
       modal1,
       mainClassList,
+      adeptCategoryList,
      } = this.state
     return(
       <div>
-        {modal1}
         <Modal
           popup
           animationType="slide-up"
@@ -570,31 +568,90 @@ class DataPage extends Component {
           onClose={this.onClose('modal1')}
         >
           <div className='list-content'>
-            <div className='left'>
-              <List>
-                {mainClassList.map((mainClass, index) => (
-                  <List.Item key={index}>{mainClass.presetsName}</List.Item>
-                ))}
-              </List>
+            <div className='title-content'>
+              <div className='cancel' onClick={this.onClose('modal1')}>取消</div>
+              <div className='ok' onClick={this.okModalClick('modal1')}>确定</div>
             </div>
-            <div className='right'>
+            <div className='modal-content'>
+              <div className='left'>
+                <List>
+                  {mainClassList.map((item, index) => (
+                    <List.Item key={index}>{item.presetsName}</List.Item>
+                  ))}
+                </List>
+              </div>
+              <div className='right'>
               <List>
-                {mainClassList.map((mainClass) => (
-                  mainClass.adeptCategoryList.map((item, index) => (
+                {adeptCategoryList.map((item, index) => (
                     <List.Item key={index}>{item.title}</List.Item>
-                  ))
                 ))}
               </List>
             </div>
-            
+            </div>
           </div>
         </Modal>
       </div>
-     
     )
   }
+// 擅长产品弹层
+  renderModal2() {
+    const {
+      modal2,
+      mainProductList,
+      productCategoryList,
+    } = this.state
+    return (
+      <div>
+        <Modal
+          popup
+          animationType="slide-up"
+          visible={modal2}
+          onClose={this.onClose('modal2')}
+        >
+          <div className='list-content'>
+            <div className='title-content'>
+              <div className='cancel' onClick={this.onClose('modal2')}>取消</div>
+              <div className='ok' onClick={this.okModalClick('modal2')}>确定</div>
+            </div>
+            <div className='modal-content'>
+              <div className='left'>
+                <List>
+                  {mainProductList.map((item, index) => (
+                    <List.Item key={index}>{item.presetsName}</List.Item>
+                  ))}
+                </List>
+              </div>
+              <div className='right'>
+                <List>
+                  {productCategoryList.map((item, index) => (
+                    <List.Item key={index}>{item.title}</List.Item>
+                  ))}
+                </List>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    )
+  }
+  okModalClick = key =>() => {
+    console.log(key)
+    if(key === 'modal1'){
+      this.setState({
+        mainClassText: '女装modal1' // 具体的值 可根据adeptCategoryList的title 展示
+      });    
+    } else if (key === 'modal2') {
+      this.setState({
+        mainProductText: '女装modal2' // 具体的值 可根据adeptCategoryList的title 展示
+      });
+    }
+    this.setState({
+      [key]: false,
+    });
+  }
 
-  onClose = key => () => {
+  onClose = key =>() => {
+    console.log(key)
     this.setState({
       [key]: false,
     });
@@ -617,6 +674,10 @@ class DataPage extends Component {
         current: 1,
       })
     } 
+
+    // 调取接口 http.js 
+
+
   }
   onTabClick = (tab, index) => {
     let buttonText = '';
@@ -639,7 +700,6 @@ class DataPage extends Component {
     const { current} = this.state;
     return (
       <div className="IndexPage">
-
         <Tabs tabs={tabs}
           initialPage={0}
           page={current}
@@ -658,7 +718,8 @@ class DataPage extends Component {
           </div>
         </Tabs>
         {this.renderButton()}
-        {this.renderModal()}
+        {this.renderModal1()}
+        {this.renderModal2()}
       </div>
     );
   }
