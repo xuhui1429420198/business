@@ -4,8 +4,6 @@ import { SET_NOTICE, SET_FOOTERSELECTED } from '../actionTypes'
 
 const INITIAL_STATE = {
   notice: '',
-  footerSelected:'home',
-  timeArr: [],
 }
 
 export const common = (state = INITIAL_STATE, action) => {
@@ -13,10 +11,7 @@ export const common = (state = INITIAL_STATE, action) => {
   switch(action.type){
     case SET_NOTICE:
       return {...state, ...{notice:action.data}};
-    case SET_FOOTERSELECTED:
-      return {...state, ...{footerSelected:action.data}};
     default:
-      return state;
-      
+      return state;   
   }
 }

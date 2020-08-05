@@ -2,11 +2,6 @@
 import { SET_NOTICE, SET_FOOTERSELECTED } from '../actionTypes'
 import Http from '../../utils/http'
 
-/***
- * 首页
- */
-// export const setNotice = createAction(SET_NOTICE)
-
 export const setNotice = (data) => {//action
   return {
     type: SET_NOTICE,
@@ -27,14 +22,3 @@ export const getNotice = () => {//获取公告
     });
   }
 }
-
-// export const setFooterSelected = (data) => {
-//   console.log('setFooterSelected',data)
-//   return (dispatch, gerState) => {
-//   console.log('gerState', gerState())
-//     dispatch({
-//       type:SET_FOOTERSELECTED,
-//       data,
-//     })
-//   }
-// }

@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { WingBlank, Tabs, WhiteSpace, List, InputItem, Picker, Toast, DatePicker, Checkbox, ImagePicker, Modal, Button} from 'antd-mobile';
+import { getNotice } from '../../store/actions/common'
 
 import '../themes/pages/index.scss'
 const addressDemo = [
@@ -185,6 +186,7 @@ class DataPage extends Component {
 
   }
   componentDidMount() {
+    this.props.getNotice() // action 里接口请求
   }
   // 渲染基本信息
   renderBaseInfo() {
@@ -730,5 +732,5 @@ export default (connect(
   state => {
     return state.common
   },
-  {}
+  { getNotice,}
 )(DataPage))
